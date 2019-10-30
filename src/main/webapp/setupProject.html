@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="css/pintuer.css">
+<link rel="stylesheet" href="css/admin.css">
+<script src="js/jquery.js"></script>
+<script src="js/pintuer.js"></script>
+<script src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="js/jquery.reveal.js"></script>
+
+</head>
+<body>
+<form method="post" action="" id="listform">
+  	<div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder">代驾员列表</strong></div>
+    <table id="table" class="table table-hover text-center">
+      <tr>
+        <th>ID</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>电话</th>
+        <th>申请日期</th>
+        <th>目前状态</th>
+        <th>操作</th>
+      </tr>      
+    </table>
+  </div>
+</form>
+<script>
+$(function(){
+		alert("123");
+		$.ajax({
+			type : "post",
+			url : "queryAllServlet", // 这里是提交到什么地方的url
+			data : {
+			},
+			contentType: 'text/json,charset=utf-8',// 这里把表单里面的数据放在这里传到后台
+			//dataType : "json",
+			success : function(data) {
+				var count = Object.keys(data).length;
+				alert("数量为："+count);
+				var keys = Object.keys(data);
+				var table=document.getElementById("table");
+				var table_rows_length = table.rows.length;
+				for(var i=count-1;i>-1;i--){
+					var table = document.getElementById("table");
+					var table_rows_length = table.rows.length;
+					var insertTr=table.insertRow(table_rows_length);
+	 				var insertTd = insertTr.insertCell(0);
+	           		insertTd.innerHTML = data[keys[i]].id;
+	           		var insertTd1 = insertTr.insertCell(1);
+	           		insertTd1.innerHTML = data[keys[i]].name;
+	           		var insertTd2 = insertTr.insertCell(2);
+	           		insertTd2.innerHTML = data[keys[i]].sex;
+	           		var insertTd3 = insertTr.insertCell(3);
+	           		insertTd3.innerHTML = data[keys[i]].phonenumber;
+	           		var insertTd4 = insertTr.insertCell(4);
+	           		insertTd4.innerHTML = data[keys[i]].data;
+	           		var insertTd5 = insertTr.insertCell(5);
+	           		if(data[keys[i]].statu){
+	           		insertTd5.innerHTML = "在线";}
+	           		else{insertTd5.innerHTML = "休息中";}
+	           		var insertTd5 = insertTr.insertCell(6);
+	           		var ele='<a class="button border-main" href="editorProject.html" style="padding: 2px 8px;"><span class="icon-edit"></span> 申请代驾</a>';
+	           		insertTd5.innerHTML =ele;
+						}
+					},dataType:"json"
+			});
+
+});
+</script>
+<script type="text/javascript">
+
+//搜索
+function changesearch(){	
+		
+}
+
+//单个删除
+function del(id,mid,iscid){
+	if(confirm("您确定要删除吗?")){
+		
+	}
+}
+
+//全选
+$("#checkall").click(function(){ 
+  $("input[name='id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+//批量删除
+function DelSelect(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false;		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+</script>
+</body>
+</html>

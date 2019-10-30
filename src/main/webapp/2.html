@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>安平代驾</title>
+<style type="text/css">
+.login {
+	text-align: center;
+	margin-top: 200px;
+}
+</style>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+	
+</script>
+<script>
+	$(function() { //启动
+		$("#btn").click(function() {
+			alert($("#uname").val());
+			var uname = $("#uname").val();
+			var upwd = $("#uname").val();
+			$.ajax({
+				type : "post",
+				url : "loginServlet", // 这里是提交到什么地方的url
+				data : {
+					"uname" : uname,
+					"upwd" : upwd
+				}, // 这里把表单里面的数据放在这里传到后台
+				dataType : "text",
+				success : function(data) {
+				 var str=data.msg;
+					// 调用回调函数
+					alert(str);
+					//window.location.href="loginsucess.html"
+				}
+			});
+		});
+	});
+</script>
+</head>
+<body>
+	<div class="login">
+		用户名：<input id="uname" name="uname" /></br>
+		密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="upwd"
+			name="upwd" /></br> <input id="btn" type="button" value="提交">
+	</div>
+</body>
+</html>
